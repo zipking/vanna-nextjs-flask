@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function generateQuestions() {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v0/generate_questions`
+    `https://vanna-flask-staging-tcsdo.ondigitalocean.app/api/v0/generate_questions`
   );
   console.log(response.data);
   return response.data;
@@ -11,7 +11,7 @@ export async function generateQuestions() {
 
 export async function generateSQL(question: string) {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v0/generate_sql`,
+    `https://vanna-flask-staging-tcsdo.ondigitalocean.app/api/v0/generate_sql`,
     {
       params: { question },
     }
@@ -22,7 +22,7 @@ export async function generateSQL(question: string) {
 
 export async function runSQL(sql: string) {
   const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v0/run_sql`,
+    `https://vanna-flask-staging-tcsdo.ondigitalocean.app/api/v0/run_sql`,
     { sql }, // Encapsulate the SQL string in an object
     {
       headers: {

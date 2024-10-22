@@ -3,7 +3,7 @@ from flask import Flask, jsonify, Response, request
 from flask_cors import CORS
 import pandas as pd
 import os
-from dependencies.vanna import VannaDefault
+from vanna.remote import VannaDefault
 import sys
 
 load_dotenv()
@@ -19,9 +19,8 @@ database = os.environ.get("SNOWFLAKE_DATABASE")
 role = os.environ.get("SNOWFLAKE_ROLE")
 model = os.environ.get("VANNA_MODEL")
 vn = VannaDefault(model=model, api_key=vannakey)
-vn.connect_to_snowflake(
-    account=account, username=username, password=password, database=database, role=role
-)
+vn.connect_to_mysql(host='db-mysql-sgp1-proj-ai-dev-do-user-11333017-0.g.db.ondigitalocean.com', dbname='dev', user='doadmin', password='AVNS_VsqqAPzLMCSlHjSg8ME', port=25060)
+
 
 
 @app.route("/api/v1/generate_questions", methods=["GET"])

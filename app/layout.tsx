@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vanna AI",
+  title: "Proj AI",
   description: "Talk to your SQL",
 };
 

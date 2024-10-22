@@ -9,6 +9,13 @@ import { useRoot } from "@/context/ContextProvider";
 import ChatButtons from "./ChatButtons";
 import useChatScroll from "./ChatScroll";
 import CodeContainer from "./CodeContainer";
+import dynamic from 'next/dynamic';
+import 'leaflet/dist/leaflet.css';
+
+// Dynamically import MapContainer and other components
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const GeoJSON = dynamic(() => import('react-leaflet').then(mod => mod.GeoJSON), { ssr: false });
 
 type MessageHistoryProps = {
   runSQL: (sql: string) => Promise<RUNResponse>;
@@ -78,6 +85,59 @@ const MessageHistory = (props: MessageHistoryProps) => {
     [handleModeChange, handleChangeMessageHistory, messageHistory, currSQL]
   );
 
+  const MyMapComponent = ({data}) => {
+
+      const createOnEachFeature = (geojsonData) => (feature, layer) => {
+        let tooltipContent = '';
+    
+        // Loop through properties
+        if (feature.properties) {
+          for (const key in feature.properties) {
+            if (!key.includes('geo')) {
+              tooltipContent += `${key}: ${feature.properties[key]}<br>`;
+            }
+            
+          }
+        }
+    // console.info('test',geojsonData)
+        // Add other data fields from geojsonData
+        // for (const key in geojsonData) {
+        //   if (!key.includes('geo')) {
+        //     tooltipContent += `${key}: ${geojsonData[key]}<br>`;
+        //   }
+        // }
+    
+        layer.bindTooltip(tooltipContent);
+      };
+    
+      const geojsonDataArray = data.map(item => {
+        const geojsonField = Object.keys(item).find(key => key.includes('geo'));
+        if (geojsonField) {
+          const geojson = JSON.parse(item[geojsonField]);
+          return { ...geojson, properties: { ...geojson.properties, ...item } };
+        }
+        return null;
+      }).filter(item => item !== null);
+    
+      return (
+        <>
+          {geojsonDataArray.length > 0 ? (
+            <MapContainer center={[3.6907848, 100.3356235]} zoom={7} style={{ height: "500px", width: "500px" }}>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {geojsonDataArray.map((geojsonData, index) => (
+                <GeoJSON key={index} data={geojsonData} onEachFeature={createOnEachFeature(geojsonData)} />
+              ))}
+            </MapContainer>
+          ) : (
+            <Table data={data} />
+          )}
+        </>
+      );
+    };
+    
+
   const renderChild = (val: TMessage, ix: number) => {
     const handleChangeSQL = (e: ChangeEvent<HTMLTextAreaElement>): void => {
       e.preventDefault();
@@ -100,7 +160,9 @@ const MessageHistory = (props: MessageHistoryProps) => {
       if (Array.isArray(data) && data.length === 0) {
         return <p className="font-bold text-xs">Relevant data not found!</p>;
       } else {
-        return <Table data={data} />;
+        console.info(data);
+        return <MyMapComponent data={data}/>;
+        
       }
     } else if (val.type === MESSAGE_TYPES.sql) {
       return <CodeContainer language="sql">{val.ai}</CodeContainer>;
@@ -119,7 +181,7 @@ const MessageHistory = (props: MessageHistoryProps) => {
           {val?.ai && (
             <div className="flex flex-col items-start justify-center">
               <ChatBubble
-                title="Vanna"
+                title="ProjAI"
                 logo={"/assets/vanna_circle.png"}
                 alt="red"
                 child={renderChild(val, ix)}

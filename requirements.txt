@@ -4,3 +4,4 @@ flask-cors
 requests
 pandas
 snowflake-connector-python
+vanna[mysql]

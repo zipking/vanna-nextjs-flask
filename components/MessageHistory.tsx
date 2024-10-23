@@ -168,7 +168,8 @@ const MessageHistory = (props: MessageHistoryProps) => {
       return <CodeContainer language="sql">{val.ai}</CodeContainer>;
     } else {
       // const isAi = [MESSAGE_TYPES.error, MESSAGE_TYPES.ai].includes(val.type);
-      const value = val.user ?? val.ai ;
+      console.info(val)
+      const value = val?.user ?? val?.ai ;
       return <div className="font-normal text-base">{value}</div>;
     }
   };

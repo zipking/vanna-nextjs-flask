@@ -164,7 +164,7 @@ const MessageHistory = (props: MessageHistoryProps) => {
         return <MyMapComponent data={data}/>;
         
       }
-    } else if (val.type === MESSAGE_TYPES.sql) {
+    } else if (val.type === MESSAGE_TYPES.sql && val.ai.includes('SELECT')) {
       return <CodeContainer language="sql">{val.ai}</CodeContainer>;
     } else {
       const isAi = [MESSAGE_TYPES.error, MESSAGE_TYPES.ai].includes(val.type);

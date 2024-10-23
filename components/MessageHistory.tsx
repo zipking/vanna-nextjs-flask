@@ -172,10 +172,10 @@ const MessageHistory = (props: MessageHistoryProps) => {
       console.info(val)
       const value = isAi ? val.ai : val.user ;
       
-      return <MarkdownView
+      return <div className="font-normal text-base"><MarkdownView
         markdown={value}
         options={{ tables: true, emoji: true }}
-      />;
+      /></div>;
     }
   };
 

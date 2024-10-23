@@ -11,6 +11,7 @@ import useChatScroll from "./ChatScroll";
 import CodeContainer from "./CodeContainer";
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
+import MarkdownView from 'react-showdown';
 
 // Dynamically import MapContainer and other components
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
@@ -170,7 +171,11 @@ const MessageHistory = (props: MessageHistoryProps) => {
       const isAi = [MESSAGE_TYPES.error, MESSAGE_TYPES.ai, MESSAGE_TYPES.sql].includes(val.type);
       console.info(val)
       const value = isAi ? val.ai : val.user ;
-      return <div className="font-normal text-base">{value}</div>;
+      
+      return <MarkdownView
+        markdown={value}
+        options={{ tables: true, emoji: true }}
+      />;
     }
   };
 

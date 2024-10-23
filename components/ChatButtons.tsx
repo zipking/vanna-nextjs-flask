@@ -25,7 +25,7 @@ const ChatButtons = (props: Props) => {
   } = props;
   const shouldShowButtons =
     currentIndex === messageHistory?.length - 1 &&
-    value?.type === MESSAGE_TYPES.sql;
+    value?.type === MESSAGE_TYPES.sql && value?.ai.includes('SELECT');
 
   // Function to render the buttons based on the mode
   const renderButtons = () => {

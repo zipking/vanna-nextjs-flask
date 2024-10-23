@@ -167,8 +167,8 @@ const MessageHistory = (props: MessageHistoryProps) => {
     } else if (val.type === MESSAGE_TYPES.sql && val.ai.includes('SELECT')) {
       return <CodeContainer language="sql">{val.ai}</CodeContainer>;
     } else {
-      const isAi = [MESSAGE_TYPES.error, MESSAGE_TYPES.ai].includes(val.type);
-      const value = isAi ? val.ai : val.user;
+      // const isAi = [MESSAGE_TYPES.error, MESSAGE_TYPES.ai].includes(val.type);
+      const value = val.user ?? val.ai ;
       return <div className="font-normal text-base">{value}</div>;
     }
   };

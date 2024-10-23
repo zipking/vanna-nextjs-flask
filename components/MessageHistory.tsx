@@ -122,7 +122,7 @@ const MessageHistory = (props: MessageHistoryProps) => {
       return (
         <>
           {geojsonDataArray.length > 0 ? (
-            <MapContainer center={[3.6907848, 100.3356235]} zoom={7} style={{ height: "500px", width: "500px" }}>
+            <MapContainer center={[3.6907848, 100.3356235]} zoom={7} style={{ height: "800px", width: "800px" }}>
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />

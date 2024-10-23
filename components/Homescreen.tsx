@@ -27,12 +27,12 @@ const Homescreen = (props: HomescreenProps) => {
 
       let SQL = await generateSQL(value);
 
-      const { text } = SQL;
+      const { text, type, id } = SQL;
       newMessage = {
         ai: text,
         user: "",
-        messageId: uuidv4(),
-        type: MESSAGE_TYPES.sql,
+        messageId: id,
+        type: type,
       };
 
       handleChangeMessageHistory(newMessage);

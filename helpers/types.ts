@@ -1,4 +1,6 @@
 export type SQLResponse = {
+  id: string;
+  type: string;
   text: string;
   sql: string;
 };

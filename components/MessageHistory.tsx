@@ -169,7 +169,7 @@ const MessageHistory = (props: MessageHistoryProps) => {
     } else {
       // const isAi = [MESSAGE_TYPES.error, MESSAGE_TYPES.ai].includes(val.type);
       console.info(val)
-      const value = val?.user ?? val?.ai ;
+      const value = val.user.length > 0 ? val.user : val.ai ;
       return <div className="font-normal text-base">{value}</div>;
     }
   };
